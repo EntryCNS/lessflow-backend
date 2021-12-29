@@ -21,6 +21,6 @@ class FullStepTest {
 
         val testResultFile = File("remotion/src/newsData.ts")
         testResultFile.writeText(videoService.generateDataTypescript(articleList))
-        videoService.buildVideoAndGetPath(articleList)
+        videoService.buildVideo(articleList, System.currentTimeMillis())
     }
 }

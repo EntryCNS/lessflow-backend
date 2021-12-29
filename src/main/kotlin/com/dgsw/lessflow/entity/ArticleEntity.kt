@@ -11,6 +11,8 @@ data class ArticleEntity(
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     var id: Long? = null,
 
+    val keyword: String,
+
     var mergedFilePath: String,
 
     val thumbnailUrl: String,
@@ -22,8 +24,9 @@ data class ArticleEntity(
 
 ) {
     companion object {
-        fun fromData(mergedFilePath: String, thumbnailUrl: String, articleTitles: List<String>): ArticleEntity {
+        fun fromData(keyword:String, mergedFilePath: String, thumbnailUrl: String, articleTitles: List<String>): ArticleEntity {
             return ArticleEntity(
+                keyword= keyword,
                 mergedFilePath= mergedFilePath,
                 thumbnailUrl= thumbnailUrl,
                 articleTitles= articleTitles.joinToString("|"),

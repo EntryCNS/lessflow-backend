@@ -1,9 +1,11 @@
 package com.dgsw.lessflow.service.internal
 
 import org.openqa.selenium.By
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.WebDriverWait
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.nio.file.Files
 import java.io.File
@@ -12,6 +14,19 @@ import java.nio.file.attribute.BasicFileAttributes
 
 @Service
 class TTSServiceImpl : TTSService {
+    @Value("\${tts.clovaprojid}")
+    lateinit var clovaProjectId: String
+
+    private fun retrySubmit(ele: WebElement, times: Int = 0) {
+        if(times >= 5) return
+
+        try {
+            ele.click()
+        } catch (ex: Exception) {
+            retrySubmit(ele, times + 1)
+        }
+    }
+
     override fun getSpeechPath(sentences: List<String>): String {
         val basePath = File("ttsTemp/${System.currentTimeMillis()}")
         basePath.mkdirs()
@@ -26,21 +41,26 @@ class TTSServiceImpl : TTSService {
         scraperOpt.setExperimentalOption("prefs", chromePrefs)
 
         val scraper = ChromeDriver(scraperOpt)
-        scraper.get("https://clovadubbing.naver.com/project/1608232")
+        scraper.get("https://clovadubbing.naver.com/project/${clovaProjectId}")
         WebDriverWait(scraper, 3000).until { it.findElements(By.id("dubbing-add-textarea")).isNotEmpty() }
 
         val inputBox = scraper.findElementById("dubbing-add-textarea")
-        val submitBox = scraper.findElement(By.cssSelector(".cursorPointer.btn.type_add"))
 
         sentences.forEach { sentence ->
             val sentenceId = sentences.indexOf(sentence) + 1
             inputBox.sendKeys(sentence)
-            Thread.sleep(500)
-            submitBox.click()
+            //Thread.sleep(1000)
+
+            //WebDriverWait(scraper, 15000).until { it.findElements(By.cssSelector(".cursorPointer.btn.type_add")).isNotEmpty() }
+            val submitBox = scraper.findElement(By.cssSelector(".cursorPointer.btn.type_add"))
+            //submitBox.click()
+            retrySubmit(submitBox)
+
             Thread.sleep(1000)
             inputBox.clear()
 
             WebDriverWait(scraper, 15000).until { it.findElements(By.cssSelector(".btn_track_dubbing.cursorPointer")).isNotEmpty() }
+
             val dubbingElement = scraper.findElement(By.cssSelector(".btn_track_dubbing.cursorPointer"))
             dubbingElement.click()
 

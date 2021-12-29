@@ -5,6 +5,7 @@ import com.dgsw.lessflow.entity.ArticleEntity
 
 data class ArticleInspectDto(
     val id: Long,
+    val keyword: String,
     val thumbnailUrl: String,
     val articleTitles: List<String>,
     val status: ArticleStatus
@@ -13,6 +14,7 @@ data class ArticleInspectDto(
         fun fromEntity(entity: ArticleEntity): ArticleInspectDto {
             return ArticleInspectDto(
                 id= entity.id!!,
+                keyword= entity.keyword,
                 thumbnailUrl= entity.thumbnailUrl,
                 articleTitles= entity.articleTitles.split("|"),
                 status= entity.status
