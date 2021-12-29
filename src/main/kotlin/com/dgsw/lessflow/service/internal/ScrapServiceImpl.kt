@@ -1,4 +1,4 @@
-package com.dgsw.lessflow.service
+package com.dgsw.lessflow.service.internal
 
 import com.dgsw.lessflow.domain.vo.DetailedArticle
 import org.openqa.selenium.By
@@ -56,6 +56,21 @@ class ScrapServiceImpl @Autowired constructor(
         scraper.close()
 
         return newsList
+    }
+
+    override fun getThumbnailUrl(keyword: String): String {
+        val scraper = ChromeDriver()
+
+        scraper.get("https://search.naver.com/search.naver?where=news&sm=tab_jum&query=$keyword")
+        WebDriverWait(scraper, 3000).until { it.findElements(By.className("list_news")).isNotEmpty() }
+
+        val bgUrl = scraper.findElement(By.className("list_news"))
+            .findElement(By.className("bx"))
+            .findElement(By.cssSelector(".thumb.api_get")).
+            getAttribute("src").split("&type=ff").first()
+        scraper.close()
+
+        return bgUrl
     }
 
 }

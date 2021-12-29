@@ -1,9 +1,8 @@
-package com.dgsw.lessflow.service
+package com.dgsw.lessflow.service.internal
 
 import org.openqa.selenium.By
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.support.ui.WebDriverWait
 import org.springframework.stereotype.Service
 import java.nio.file.Files
@@ -62,7 +61,7 @@ class TTSServiceImpl : TTSService {
         scraper.close()
 
         // change name
-        val audioList = basePath.listFiles().sortedByDescending { Files.readAttributes(it.toPath(), BasicFileAttributes::class.java).creationTime() }
+        val audioList = basePath.listFiles().sortedBy { Files.readAttributes(it.toPath(), BasicFileAttributes::class.java).creationTime() }
         audioList.forEach { audio ->
             val id = audioList.indexOf(audio) + 1
             audio.renameTo(File("${basePath.absolutePath}/audio${id}.mp3"))
@@ -71,7 +70,7 @@ class TTSServiceImpl : TTSService {
         /*sentences.forEach { sentence ->
             val replaced = sentence.replace(" ", "+")
             val audio = File("${basePath.absolutePath}/${replaced}.mp3")
-            println("${audio.absolutePath} is ${if(audio.exists()) "exists" else "no exists"}")
+            println("${audio .absolutePath} is ${if(audio.exists()) "exists" else "no exists"}")
             audio.renameTo(File("audio${sentences.indexOf(sentence) + 1}.mp3"))
         }*/
 

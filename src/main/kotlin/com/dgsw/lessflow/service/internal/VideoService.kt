@@ -1,4 +1,4 @@
-package com.dgsw.lessflow.service
+package com.dgsw.lessflow.service.internal
 
 import com.dgsw.lessflow.domain.vo.DetailedArticle
 
@@ -9,5 +9,5 @@ interface VideoService {
 
     fun mergeAllVideo(tmpFolderId: Long)
 
-    fun buildVideoAndGetPath(newsList: List<DetailedArticle>): String
+    fun buildVideo(newsList: List<DetailedArticle>, pathId: Long)
 }

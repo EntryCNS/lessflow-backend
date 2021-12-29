@@ -29,8 +29,19 @@ dependencies {
 	implementation("com.github.shin285:KOMORAN:3.3.4")
 	implementation("org.seleniumhq.selenium:selenium-java:4.1.0")
 	implementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
 
-	runtimeOnly("com.h2database:h2")
+	// swagger
+	implementation("io.springfox:springfox-swagger2:2.9.2")
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
+
+	// thymeleaf
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
+	implementation("javax.servlet:jstl:1.2")
+
+	//runtimeOnly("com.h2database:h2")
+	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

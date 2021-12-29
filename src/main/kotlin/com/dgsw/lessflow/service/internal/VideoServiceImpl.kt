@@ -1,11 +1,9 @@
-package com.dgsw.lessflow.service
+package com.dgsw.lessflow.service.internal
 
 import com.dgsw.lessflow.domain.vo.DetailedArticle
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
 
 @Service
 class VideoServiceImpl @Autowired constructor(
@@ -97,8 +95,8 @@ class VideoServiceImpl @Autowired constructor(
         Runtime.getRuntime().exec(arrayOf("/bin/sh", "-c", mergeCommand)).waitFor()
     }
 
-    override fun buildVideoAndGetPath(newsList: List<DetailedArticle>): String {
-        val renderTmpId = System.currentTimeMillis()
+    override fun buildVideo(newsList: List<DetailedArticle>, pathId: Long) {
+        val renderTmpId = pathId
 
         // get speech data
         val targetBaseFolder = File("remotion/audio").absoluteFile
@@ -118,7 +116,7 @@ class VideoServiceImpl @Autowired constructor(
         mergeAllVideo(renderTmpId)
 
         val tmpFolder = File("tmp/${renderTmpId}")
-        return File("${tmpFolder.absolutePath}/merged.mp4").absolutePath
+        //return File("${tmpFolder.absolutePath}/merged.mp4").absolutePath
     }
 
 }

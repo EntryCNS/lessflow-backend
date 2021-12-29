@@ -1,4 +1,4 @@
-package com.dgsw.lessflow.service
+package com.dgsw.lessflow.service.internal
 
 import com.dgsw.lessflow.domain.vo.*
 import com.dgsw.lessflow.utils.NlpUtils

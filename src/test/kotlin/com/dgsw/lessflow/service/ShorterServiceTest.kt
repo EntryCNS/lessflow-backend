@@ -1,5 +1,6 @@
 package com.dgsw.lessflow.service
 
+import com.dgsw.lessflow.service.internal.ShorterService
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
